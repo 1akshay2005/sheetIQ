@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SheetIQ - Data Analysis</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <div class="space-background">
+        <div class="stars"></div>
+        <div class="stars stars-two"></div>
+        <div class="stars stars-three"></div>
+
+        <div class="nebula nebula-one"></div>
+        <div class="nebula nebula-two"></div>
+    </div>
+
+    <header>
+        <h1>SheetIQ</h1>
+        <p>Your dataset has been successfully analyzed.</p>
+    </header>
+
+    <main>
+
+        <section class="analysis-card">
+
+            <h2>Dataset Overview</h2>
+
+            <div class="stats-container">
+
+                <div class="stat-box">
+                    <h3>File</h3>
+                    <p>{{ filename }}</p>
+                </div>
+
+                <div class="stat-box">
+                    <h3>Rows</h3>
+                    <p>{{ rows }}</p>
+                </div>
+
+                <div class="stat-box">
+                    <h3>Columns</h3>
+                    <p>{{ columns }}</p>
+                </div>
+
+                <div class="stat-box">
+                    <h3>Total Cells</h3>
+                    <p>{{ total_cells }}</p>
+                </div>
+
+                <div class="stat-box">
+                    <h3>Missing Values</h3>
+                    <p>{{ missing_values }}</p>
+                </div>
+
+                <div class="stat-box">
+                    <h3>Duplicate Rows</h3>
+                    <p>{{ duplicate_rows }}</p>
+                </div>
+
+            </div>
+
+
+            <!-- Columns Detected -->
+
+            <div class="columns-section">
+
+                <h2>Columns Detected</h2>
+
+                <div class="column-list">
+
+                    {% for column in column_names %}
+                        <span>{{ column }}</span>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+
+            <!-- Column Analysis -->
+
+            <div class="columns-section">
+
+                <h2>Column Analysis</h2>
+
+                <div class="column-table-container">
+
+                    <table class="column-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>Column Name</th>
+                                <th>Data Type</th>
+                                <th>Non-Null Values</th>
+                                <th>Missing Values</th>
+                                <th>Unique Values</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for column in column_details %}
+
+                            <tr>
+
+                                <td>{{ column.name }}</td>
+
+                                <td>
+                                    <span class="data-type">
+                                        {{ column.dtype }}
+                                    </span>
+                                </td>
+
+                                <td>{{ column.non_null }}</td>
+
+                                <td>
+
+                                    {% if column.missing == 0 %}
+
+                                        <span class="status-clean">
+                                            Clean
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="status-missing">
+                                            {{ column.missing }}
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                                <td>{{ column.unique }}</td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <!-- Numerical Statistics -->
+
+            <div class="columns-section">
+
+                <h2>Numerical Statistics</h2>
+
+                {% if numeric_summary %}
+
+                <div class="column-table-container">
+
+                    <table class="column-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>Column</th>
+                                <th>Count</th>
+                                <th>Mean</th>
+                                <th>Std Dev</th>
+                                <th>Minimum</th>
+                                <th>25%</th>
+                                <th>Median</th>
+                                <th>75%</th>
+                                <th>Maximum</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for column in numeric_summary %}
+
+                            <tr>
+
+                                <td>{{ column.name }}</td>
+                                <td>{{ column.count }}</td>
+                                <td>{{ column.mean }}</td>
+                                <td>{{ column.std }}</td>
+                                <td>{{ column.min }}</td>
+                                <td>{{ column.q25 }}</td>
+                                <td>{{ column.median }}</td>
+                                <td>{{ column.q75 }}</td>
+                                <td>{{ column.max }}</td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                {% else %}
+
+                <p class="no-data">
+                    No numerical columns detected in this dataset.
+                </p>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- Data Preview -->
+
+            <div class="columns-section">
+
+                <h2>Data Preview</h2>
+
+                <div class="column-table-container">
+
+                    <table class="column-table">
+
+                        <thead>
+
+                            <tr>
+
+                                {% for column in column_names %}
+                                    <th>{{ column }}</th>
+                                {% endfor %}
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for row in data_preview %}
+
+                            <tr>
+
+                                {% for column in column_names %}
+                                    <td>{{ row[column] }}</td>
+                                {% endfor %}
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>SheetIQ • Intelligent spreadsheet analytics</p>
+    </footer>
+
+</body>
+</html>

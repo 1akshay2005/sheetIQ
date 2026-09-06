@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SheetIQ - Excel Analytics</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- Animated space background -->
+    <div class="space-background">
+        <div class="stars"></div>
+        <div class="stars stars-two"></div>
+        <div class="stars stars-three"></div>
+
+        <div class="nebula nebula-one"></div>
+        <div class="nebula nebula-two"></div>
+    </div>
+
+    <header>
+        <h1>SheetIQ</h1>
+        <p>Turn your spreadsheets into intelligent insights.</p>
+    </header>
+
+    <main>
+
+        <section class="upload-card">
+
+            <div class="upload-icon">
+                ↑
+            </div>
+
+            <h2>Analyze Your Data</h2>
+
+            <p>
+                Upload your Excel or CSV file and let SheetIQ
+                transform your data into meaningful visualizations.
+            </p>
+
+            <form action="/upload" method="POST" enctype="multipart/form-data">
+
+                <div class="upload-area">
+
+                    <input
+                        type="file"
+                        id="fileInput"
+                        name="file"
+                        accept=".xlsx, .xls, .csv"
+                        required
+                    >
+
+                    <label for="fileInput" class="choose-button">
+                        Choose File
+                    </label>
+
+                    <p class="file-name" id="fileName">
+                        No file selected
+                    </p>
+
+                </div>
+
+                <button type="submit" class="analyze-button">
+                    Analyze Spreadsheet
+                </button>
+
+    </form>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>SheetIQ • Intelligent spreadsheet analytics</p>
+    </footer>
+    <!-- JavaScript file ko HTML se connect kar rahe hain -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
